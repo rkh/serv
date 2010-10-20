@@ -6,7 +6,7 @@ require 'rack/utils'
 module Rack
   module Handler
     class Serv
-      VERSION = "0.1"     
+      VERSION = "0.1"
       def self.run(app, options = {})
         Thread.abort_on_exception = true
         @@host, @@port = options[:Host] || '0.0.0.0', options[:Port] || 8080
