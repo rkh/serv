@@ -1,4 +1,4 @@
-require 'ruby_http_parser'
+require 'http/parser'
 require 'stringio'
 require 'socket'
 require 'rack/utils'
@@ -18,14 +18,14 @@ module Rack
       def initialize(app, socket)
         puts "incoming"
         @app, @socket, @done        = app, socket, false
-        parser                      = Net::HTTP::RequestParser.new
+        parser                      = HTTP::RequestParser.new
         @body                       = ""
         parser.on_body              = proc { |b| @body << b }
         parser.on_message_complete  = self
         parser << (first_line = @socket.gets)
         @verb, @path, @http = first_line.split(' ')
         parser << @socket.gets until @done
-      rescue Net::HTTP::ParseError
+      rescue HTTP::ParseError
         @socket.close
       end
 
